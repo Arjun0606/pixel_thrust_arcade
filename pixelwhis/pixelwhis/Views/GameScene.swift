@@ -559,15 +559,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision = bodyA.categoryBitMask | bodyB.categoryBitMask
         if collision == 3 { // Player (1) + Asteroid (2)
             isGameActive = false
-            flashRedScreen()
-            spinOutPlayer()
-            createExplosion(at: player.position)
-            SoundManager.shared.playExplosion()
+            // EXPLOSION
+            let explosion = SKEmitterNode(fileNamed: "PlayerExplosion.sks") ?? SKEmitterNode()
+            explosion.position = player.position
+            addChild(explosion)
             
+            // Calculate game stats
+            let survivalTime = CFAbsoluteTimeGetCurrent() - gameStartTime
+            let finalScore = gameManager?.score ?? 0
+            
+            // Update player stats
+            var stats = PlayerStats.load()
+            stats.recordGameEnd(
+                score: finalScore,
+                survivalTime: survivalTime,
+                asteroidsRetired: asteroidsRetired,
+                boostsUsed: 0  // Track this if you add boost counting
+            )
+            stats.save()
+            print("📊 Stats updated: Score \(finalScore), Time \(survivalTime)s, Retired \(asteroidsRetired)")
+            
+            // Submit to Game Center
+            let leaderboard = LeaderboardManager()
+            leaderboard.submitScore(finalScore)
+            
+            // End game
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
                 self?.gameManager?.currentState = .gameOver
-                print("💥 Game Over!")
             }
+            print("💥 Game Over!")
         }
     }
     

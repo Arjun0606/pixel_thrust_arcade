@@ -7,6 +7,7 @@ struct MainMenuView: View {
     
     @State private var titlePulse: CGFloat = 1.0
     @State private var showingStats = false
+    @State private var showingLeaderboard = false
     
     var body: some View {
         ZStack {
@@ -70,6 +71,11 @@ struct MainMenuView: View {
                     showingStats = true
                 })
                 
+                // Leaderboard button
+                RetroButton("🏆 LEADERBOARD", icon: "trophy.fill", color: .orange, action: {
+                    showingLeaderboard = true
+                })
+                
                 // Instructions
                 VStack(spacing: 4) {
                     PixelText("◀ ▶ THRUST", size: 10, color: .starWhite.opacity(0.6))
@@ -80,6 +86,9 @@ struct MainMenuView: View {
         }
         .sheet(isPresented: $showingStats) {
             StatsView()
+        }
+        .sheet(isPresented: $showingLeaderboard) {
+            LeaderboardView()
         }
     }
 }
