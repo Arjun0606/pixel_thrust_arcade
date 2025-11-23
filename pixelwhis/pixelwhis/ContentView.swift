@@ -170,7 +170,7 @@ struct ContentView: View {
                         } onRelease: {
                             scene.setLeftButton(pressed: false)
                         }
-                        .frame(width: 140, height: 116)  // Bigger and broader!
+                        .frame(width: 245, height: 203)  // 75% bigger!
                     }
                     
                     // RIGHT BUTTON
@@ -184,7 +184,7 @@ struct ContentView: View {
                         } onRelease: {
                             scene.setRightButton(pressed: false)
                         }
-                        .frame(width: 140, height: 116)  // Bigger and broader!
+                        .frame(width: 245, height: 203)  // 75% bigger!
                     }
                 }
                 .padding(.bottom, 40)
