@@ -159,7 +159,7 @@ struct ContentView: View {
                 Spacer()
                 
                 // CONTROL BUTTONS
-                HStack(spacing: 80) {
+                HStack(spacing: 20) {  // Closer together for thumb reach!
                     // LEFT BUTTON
                     if let scene = scene {
                         PixelButton(
