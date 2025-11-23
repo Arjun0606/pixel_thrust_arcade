@@ -117,28 +117,32 @@ struct ContentView: View {
             )
             .ignoresSafeArea()
             
-            VStack(spacing: 16) {
-                // HUD - Top bar
+            VStack(spacing: 0) {
+                // TOP BAR - Score Display with safe area
                 HStack {
                     PixelText("HI: \(gameManager.highScore)", size: 14, color: .starWhite)
+                    
                     Spacer()
-                    PixelText("SCORE: \(gameManager.score)", size: 16, color: .scoreGreen, glow: true)
+                    
+                    PixelText("SCORE: \(gameManager.score)", size: 14, color: .green)
+                    
                     Spacer()
+                    
+                    // Pause Button
                     Button(action: {
                         withAnimation {
                             gameManager.pauseGame()
                         }
                     }) {
                         Image(systemName: "pause.fill")
-                            .font(.system(size: 18))
-                            .foregroundColor(.pauseYellow)
-                            .frame(width: 32, height: 32)
+                            .font(.title2)
+                            .foregroundColor(.yellow)
                     }
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 60)
-                
-                Spacer()
+                .padding(.horizontal, 16)
+                .padding(.top, 50)  // Extra padding to clear status bar and notch!
+                .padding(.bottom, 8)
+                .background(Color.black.opacity(0.3))
                 
                 // GAME VIEWPORT with pixel border
                 if let scene = scene {
