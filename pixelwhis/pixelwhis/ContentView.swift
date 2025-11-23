@@ -118,31 +118,62 @@ struct ContentView: View {
             .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // TOP BAR - Score Display with safe area
-                HStack {
-                    PixelText("HI: \(gameManager.highScore)", size: 14, color: .starWhite)
+                // TOP BAR - Redesigned for clarity
+                HStack(spacing: 0) {
+                    // HIGH SCORE
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("HI")
+                            .font(.custom("PixelFont", size: 11))
+                            .foregroundColor(.white.opacity(0.6))
+                        Text("\(gameManager.highScore)")
+                            .font(.custom("PixelFont", size: 20))
+                            .foregroundColor(.yellow)
+                    }
+                    .frame(width: 80, alignment: .leading)
                     
                     Spacer()
                     
-                    PixelText("SCORE: \(gameManager.score)", size: 14, color: .green)
+                    // CURRENT SCORE - CENTER
+                    VStack(spacing: 2) {
+                        Text("SCORE")
+                            .font(.custom("PixelFont", size: 11))
+                            .foregroundColor(.white.opacity(0.6))
+                        Text("\(gameManager.score)")
+                            .font(.custom("PixelFont", size: 22))
+                            .foregroundColor(.green)
+                            .shadow(color: .green, radius: 4)
+                    }
                     
                     Spacer()
                     
-                    // Pause Button
+                    // PAUSE BUTTON
                     Button(action: {
                         withAnimation {
                             gameManager.pauseGame()
                         }
                     }) {
-                        Image(systemName: "pause.fill")
-                            .font(.title2)
-                            .foregroundColor(.yellow)
+                        ZStack {
+                            Circle()
+                                .fill(Color.yellow.opacity(0.2))
+                                .frame(width: 50, height: 50)
+                            
+                            Image(systemName: "pause.circle.fill")
+                                .font(.system(size: 30))
+                                .foregroundColor(.yellow)
+                        }
                     }
+                    .frame(width: 80, alignment: .trailing)
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 50)  // Extra padding to clear status bar and notch!
-                .padding(.bottom, 8)
-                .background(Color.black.opacity(0.3))
+                .padding(.horizontal, 20)
+                .padding(.top, 50)
+                .padding(.bottom, 16)
+                .background(
+                    LinearGradient(
+                        colors: [Color.black.opacity(0.7), Color.black.opacity(0.5)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
                 
                 // GAME VIEWPORT with pixel border
                 if let scene = scene {
@@ -162,42 +193,44 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                // CONTROL BUTTONS
-                HStack(spacing: 20) {  // Closer together for thumb reach!
-                    // LEFT BUTTON
-                    if let scene = scene {
-                        PixelButton(
-                            image: "left_button",
-                            tintColor: (scene.leftButtonPressed && scene.rightButtonPressed) ? .red : .white
-                        ) {
-                            scene.setLeftButton(pressed: true)
-                        } onRelease: {
-                            scene.setLeftButton(pressed: false)
-                        }
-                        .frame(width: 245, height: 203)  // 75% bigger!
-                    }
+                // CONTROL BUTTONS with instruction in middle
+                VStack(spacing: 20) {
+                    // Instruction ABOVE buttons
+                    Text("Hold both to BOOST ↑")
+                        .font(.custom("PixelFont", size: 14))
+                        .foregroundColor(.white.opacity(0.7))
                     
-                    // RIGHT BUTTON
-                    if let scene = scene {
-                        PixelButton(
-                            image: "left_button",
-                            isFlipped: true,
-                            tintColor: (scene.leftButtonPressed && scene.rightButtonPressed) ? .red : .white
-                        ) {
-                            scene.setRightButton(pressed: true)
-                        } onRelease: {
-                            scene.setRightButton(pressed: false)
+                    // BUTTONS
+                    HStack(spacing: 20) {
+                        // LEFT BUTTON
+                        if let scene = scene {
+                            PixelButton(
+                                image: "left_button",
+                                tintColor: (scene.leftButtonPressed && scene.rightButtonPressed) ? .red : .white
+                            ) {
+                                scene.setLeftButton(pressed: true)
+                            } onRelease: {
+                                scene.setLeftButton(pressed: false)
+                            }
+                            .frame(width: 245, height: 203)
                         }
-                        .frame(width: 245, height: 203)  // 75% bigger!
+                        
+                        // RIGHT BUTTON
+                        if let scene = scene {
+                            PixelButton(
+                                image: "left_button",
+                                isFlipped: true,
+                                tintColor: (scene.leftButtonPressed && scene.rightButtonPressed) ? .red : .white
+                            ) {
+                                scene.setRightButton(pressed: true)
+                            } onRelease: {
+                                scene.setRightButton(pressed: false)
+                            }
+                            .frame(width: 245, height: 203)
+                        }
                     }
                 }
                 .padding(.bottom, 40)
-                
-                // BOOST INSTRUCTION
-                Text("Hold both to BOOST ↑")
-                    .font(.custom("PixelFont", size: 14))
-                    .foregroundColor(.white.opacity(0.7))
-                    .padding(.bottom, 30)
             }
         }
     }

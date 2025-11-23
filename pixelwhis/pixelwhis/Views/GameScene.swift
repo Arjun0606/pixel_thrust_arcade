@@ -559,10 +559,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let collision = bodyA.categoryBitMask | bodyB.categoryBitMask
         if collision == 3 { // Player (1) + Asteroid (2)
             isGameActive = false
-            // EXPLOSION
-            let explosion = SKEmitterNode(fileNamed: "PlayerExplosion.sks") ?? SKEmitterNode()
-            explosion.position = player.position
-            addChild(explosion)
+            
+            // VISUAL EFFECTS (RESTORED!)
+            flashRedScreen()
+            spinOutPlayer()
+            createExplosion(at: player.position)
+            SoundManager.shared.playExplosion()
             
             // Calculate game stats
             let survivalTime = CFAbsoluteTimeGetCurrent() - gameStartTime
@@ -574,7 +576,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 score: finalScore,
                 survivalTime: survivalTime,
                 asteroidsRetired: asteroidsRetired,
-                boostsUsed: 0  // Track this if you add boost counting
+                boostsUsed: 0
             )
             stats.save()
             print("📊 Stats updated: Score \(finalScore), Time \(survivalTime)s, Retired \(asteroidsRetired)")

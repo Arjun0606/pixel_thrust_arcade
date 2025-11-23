@@ -36,7 +36,11 @@ struct PlayerStats: Codable {
     var formattedTotalPlayTime: String {
         let hours = Int(totalPlayTime) / 3600
         let minutes = (Int(totalPlayTime) % 3600) / 60
-        return String(format: "%dh %dm", hours, minutes)
+        if hours > 0 {
+            return String(format: "%dh %dm", hours, minutes)
+        } else {
+            return String(format: "%dm", minutes)
+        }
     }
     
     var formattedBestSurvival: String {
