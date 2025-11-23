@@ -128,8 +128,8 @@ struct ContentView: View {
                         Text("\(gameManager.highScore)")
                             .font(.custom("PixelFont", size: 20))
                             .foregroundColor(.yellow)
+                            .fixedSize()  // Let it expand as needed
                     }
-                    .frame(width: 80, alignment: .leading)
                     
                     Spacer()
                     

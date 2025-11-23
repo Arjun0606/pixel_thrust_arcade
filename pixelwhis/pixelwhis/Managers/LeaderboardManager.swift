@@ -8,7 +8,7 @@ class LeaderboardManager: NSObject {
     var leaderboardEntries: [GKLeaderboard.Entry] = []
     var playerRank: Int?
     
-    private let leaderboardID = "com.pixelthrust.highscore"  // Change to your actual ID
+    private let leaderboardID = "com.pixelthrust.highscore"  // Must match App Store Connect exactly!
     
     override init() {
         super.init()
