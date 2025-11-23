@@ -6,6 +6,7 @@ struct MainMenuView: View {
     let highScore: Int
     
     @State private var titlePulse: CGFloat = 1.0
+    @State private var showingStats = false
     
     var body: some View {
         ZStack {
@@ -64,6 +65,11 @@ struct MainMenuView: View {
                 // Start button
                 RetroButton("▶ START GAME", icon: "play.fill", color: .electricCyan, action: onStartGame)
                 
+                // Stats button
+                RetroButton("📊 STATS", icon: "chart.bar.fill", color: .purple, action: {
+                    showingStats = true
+                })
+                
                 // Instructions
                 VStack(spacing: 4) {
                     PixelText("◀ ▶ THRUST", size: 10, color: .starWhite.opacity(0.6))
@@ -72,9 +78,14 @@ struct MainMenuView: View {
                 .padding(.bottom, 60)
             }
         }
+        .sheet(isPresented: $showingStats) {
+            StatsView()
+        }
     }
 }
 
-#Preview {
-    MainMenuView(onStartGame: {}, highScore: 12345)
+struct MainMenuView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainMenuView(onStartGame: {}, highScore: 12345)
+    }
 }
